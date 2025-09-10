@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng nhập / Đăng ký</title>
+  <style>
+    form {
+      max-width: 300px;
+      margin: 20px auto;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center">Đăng ký</h2>
+  <form id="registerForm">
+    <input type="text" id="username" placeholder="Tên đăng nhập">
+    <input type="password" id="password" placeholder="Mật khẩu">
+    <input type="password" id="confirmPassword" placeholder="Nhập lại mật khẩu">
+    <button type="submit">Đăng ký</button>
+    <p class="error" id="errorMsg"></p>
+  </form>
+
+  <script>
+    const registerForm = document.getElementById("registerForm");
+    const errorMsg = document.getElementById("errorMsg");
+
+    registerForm.addEventListener("submit", function(e) {
+      e.preventDefault(); // Ngăn load lại trang
+
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      // Kiểm tra chỗ trống
+      if (!username || !password || !confirmPassword) {
+        errorMsg.textContent = "⚠️ Vui lòng điền đầy đủ thông tin!";
+        return;
+      }
+
+      // Kiểm tra độ dài mật khẩu
+      if (password.length < 8) {
+        errorMsg.textContent = "⚠️ Mật khẩu phải ít nhất 8 ký tự!";
+        return;
+      }
+
+      // Kiểm tra có ít nhất 1 chữ in hoa
+      if (!/[A-Z]/.test(password)) {
+        errorMsg.textContent = "⚠️ Mật khẩu phải có ít nhất 1 chữ in hoa!";
+        return;
+      }
+
+      // Kiểm tra có ký tự đặc biệt
+      if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+        errorMsg.textContent = "⚠️ Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt!";
+        return;
+      }
+
+      // Kiểm tra nhập lại mật khẩu
+      if (password !== confirmPassword) {
+        errorMsg.textContent = "⚠️ Mật khẩu nhập lại không khớp!";
+        return;
+      }
+
+      // Nếu tất cả OK
+      errorMsg.style.color = "green";
+      errorMsg.textContent = "✅ Đăng ký thành công!";
+    });
+  </script>
+</body>
+</html>
+
+
